@@ -8,16 +8,15 @@ import About from './screens/About';
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <BrowserRouter>
-        <Navbar />
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/home" element={<HomeScreen />} />
           <Route path="/about" element={<About />} />
         </Routes>
-        <Footer />
-
       </BrowserRouter>
+      <Footer />
     </div>
   );
 }
