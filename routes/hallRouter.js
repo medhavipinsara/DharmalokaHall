@@ -6,11 +6,10 @@ const Hall = require('../models/halls'); // Updated import statement
 router.get('/getallhalls', async (req, res) => {
   try {
     const halls = await Hall.find({})
-     res.send(halls);
+    res.send( halls );
   } catch (error) {
     return res.status(400).json({ message: error });
   }
 });
 
- 
 module.exports = router;

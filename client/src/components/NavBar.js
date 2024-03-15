@@ -31,7 +31,7 @@ function Navbar() {
                         alt="Logo"
                         className="logo"
                     />
-                    DHARAMLOKA HALL
+                    DHARAMALOKA HALL
                 </a>
                 <button
                     className="navbar-toggler"
@@ -57,12 +57,12 @@ function Navbar() {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">
+                            <a className="nav-link" href="./login">
                                 Login
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">
+                            <a className="nav-link" href="./register">
                                 Register
                             </a>
                         </li>
@@ -86,7 +86,7 @@ function Navbar() {
         <div>
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">DHRAMALOKA HALL</a>
+                    <a class="navbar-brand" href="#">DHARAMALOKA HALL</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>

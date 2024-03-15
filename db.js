@@ -12,7 +12,7 @@ console.log("Mongo DB Connection failed")
 });
 
 connection.on('connected', () =>{
-    console.log("Mongo DB Connection sucessful")
+    console.log("Mongo DB Connection successful")
     });
     
 
