@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Hall = require('../models/halls'); // Updated import statement
+const Package = require('../models/package'); // Updated import statement
 
 // Get all halls
-router.get('/getallhalls', async (req, res) => {
+router.get('/getallpackages', async (req, res) => {
   try {
-    const halls = await Hall.find({})
-    res.send( halls );
+    const packages = await Package.find({})
+    res.send( packages );
   } catch (error) {
     return res.status(400).json({ message: error });
   }

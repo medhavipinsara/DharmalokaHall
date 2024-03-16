@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import HomeScreen from './screens/HomeScreen';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import About from './screens/About';
+import BookingScreen from './screens/BookingScreen';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<HomeScreen />} />
           <Route path="/home" element={<HomeScreen />} />
           <Route path="/about" element={<About />} />
+          <Route path="/booking" element={<BookingScreen />} />
         </Routes>
       </BrowserRouter>
       <Footer />

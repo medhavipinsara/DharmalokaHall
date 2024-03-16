@@ -1,10 +1,20 @@
 {
     "cSpell.words": [
+        "bigimg",
+        "currentbookings",
         "Dharamaloka",
         "Dharmaloka",
         "getallhalls",
+        "getallpackages",
         "hallmodel",
+        "imageurls",
         "Kelaniya",
+        "packageimages",
+        "packagemodel",
+        "seterror",
+        "setloading",
+        "setpackages",
+        "smallimg",
         "Thera"
     ]
 }

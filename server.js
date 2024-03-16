@@ -3,8 +3,7 @@ const express= require("express");
 const app = express();
 
 const dbConfig = require('./db')
-const hallRouter = require('./routes/hallRouter')
-
+const packagesRoute = require('./routes/packagesRoute')
 
 
 app.use((req, res, next) => {
@@ -13,7 +12,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/halls', hallRouter)
+app.use('/api/packages', packagesRoute)
 
 const port= process.env.PORT || 5000;
 
