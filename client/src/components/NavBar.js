@@ -25,7 +25,7 @@ function Navbar() {
             className={`navbar navbar-expand-lg ${isScrolled ? "scrolled" : ""}`}
         >
             <div className="container-fluid">
-                <a className="navbar-brand" href="#">
+                <a className="navbar-brand" href="/">
                     <img
                         src={require("./Kelaniya.png")}
                         alt="Logo"
@@ -47,27 +47,32 @@ function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="./home">
+                            <a className="nav-link active" href="/home">
                                 Home
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="./about">
+                            <a className="nav-link" href="/about">
                                 About Us
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="./booking">
+                            <a className="nav-link" href="/packages">
+                                Packages 
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/booking">
                                 Booking
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="./login">
+                            <a className="nav-link" href="/login">
                                 Login
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="./register">
+                            <a className="nav-link" href="/register">
                                 Register
                             </a>
                         </li>
