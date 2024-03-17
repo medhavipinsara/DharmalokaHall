@@ -1,18 +1,16 @@
 import React , {useState} from 'react'
-import BeatLoader from "react-spinners/BeatLoader";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 function Loader() {
     let [loading, setLoading] = useState(true);
     return (
-        <div style={{marginTop:'150px'}}>
+        <div style={{marginTop:'200px'}}>
             <div className="sweet-loading text-center">
-                <BeatLoader
+                <PropagateLoader
                     color='#000'
                     loading={loading}
                     cssOverride=''
-                    size={80}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
+                    size={20}
                 /  >
             </div>  
         </div>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Package from "../components/Package";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 function PackagesScreen() {
     const [packages, setpackages] = useState([]);
@@ -31,9 +33,9 @@ function PackagesScreen() {
         <div className='container'>
             <div className="row justify-content-center mt-5">
                 {loading ? (
-                    <h1>Loading...</h1>
+                    <Loader />
                 ) : error ? (
-                    <h1>Error</h1>
+                    <Error />
                 ) : (
                     packages.map((pkg) => {
                         return(

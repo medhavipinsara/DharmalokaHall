@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../components/Package.css';
+import Loader from '../components/Loader';
+import Error from '../components/Error';
 
 function BookingScreen() {
     const [loading, setloading] = useState(true);
@@ -39,9 +41,9 @@ function BookingScreen() {
             <h1>Package id = {pkgid}</h1> */}
 
             {loading ? (
-                    <h1>Loading...</h1>
+                    <Loader />
                 ) : error ? (
-                    <h1>Error</h1>
+                    <Error />
                 ) : (
                     <div className='row justify-content-center mt-5 bs'>
                         <div className="col-md-6">

@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "bigimg",
+        "cpassword",
         "currentbookings",
         "Dharamaloka",
         "Dharmaloka",
@@ -11,16 +12,22 @@
         "hallmodel",
         "imageurls",
         "Kelaniya",
+        "newuser",
         "packageid",
         "packageimages",
         "packagemodel",
         "pkgid",
         "pkgimg",
         "roomid",
+        "setcpassword",
+        "setemail",
         "seterror",
         "setloading",
+        "setname",
         "setpackages",
+        "setpassword",
         "setpkg",
+        "setsuccess",
         "smallimg",
         "Thera"
     ]
