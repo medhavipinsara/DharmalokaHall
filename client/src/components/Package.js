@@ -1,26 +1,16 @@
-import React, { useRef, useState, useEffect} from "react";
+import React, { useState} from "react";
 import './Package.css';
+import { Link } from "react-router-dom";
 import {Modal, Button, Carousel} from 'react-bootstrap';
 
 function Package( {pkg} ) {
     const [show, setShow] = useState(false);
-    const focusRef = useRef(null);
 
     const handleClose = () => {
-        console.log("Modal Closed");
         setShow(false);
+        window.location.reload();
     };
-    const handleShow = () => {
-        console.log("Modal Opened");
-        setShow(true);
-    }
-
-    useEffect(() => {
-        if (!show) {
-            focusRef.current?.focus();
-        }
-    }, [show]);
-
+    const handleShow = () => setShow(true);
     
     return (
         <div className='row bs'>
@@ -35,6 +25,9 @@ function Package( {pkg} ) {
                     <p>Type : {pkg.type}</p>
                 </b>
                 <div style={{float: 'right'}}>
+                    <Link to={"/booking/"+ pkg._id}>
+                        <button className='btn btn-primary m-2'>Book Now</button>
+                    </Link>
                     <button className='btn btn-primary' onClick={handleShow}>View Details</button>
                 </div>
             </div>
@@ -68,9 +61,7 @@ function Package( {pkg} ) {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <div tabIndex={-1} ref={focusRef}></div>
         </div>
     )
 }
-
 export default Package
