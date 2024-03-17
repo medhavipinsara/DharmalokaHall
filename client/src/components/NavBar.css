@@ -51,7 +51,11 @@
       padding: 1rem;
     }
   }
-  
+
+  .dropdown-toggle{
+    border: 0px solid #333 !important;
+    background-color: #333 !important;
+  }
 
 
 /*

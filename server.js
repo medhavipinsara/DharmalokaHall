@@ -6,8 +6,9 @@ const app = express();
 
 const dbConfig = require('./db')
 const packagesRoute = require('./routes/packagesRoute')
-app.use(express.json());
+const usersRoute = require('./routes/usersRoute')
 
+app.use(express.json());
 app.use(cors());
 
 // app.use((req, res, next) => {
@@ -17,6 +18,7 @@ app.use(cors());
 // });
 
 app.use('/api/packages', packagesRoute)
+app.use('/api/users', usersRoute)
 
 const port= process.env.PORT || 5000;
 

@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./NavBar.css";
 
 function Navbar() {
+
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    
+    function logout(){
+        localStorage.removeItem('currentUser');
+        window.location.href='/login'
+    }
+
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -36,16 +44,16 @@ function Navbar() {
                 <button
                     className="navbar-toggler"
                     type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
+                    data-toggle="collapse"
+                    data-target="#navbarNav"
                     aria-controls="navbarNav"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                 >
-                    <span className="navbar-toggler-icon"></span>
+                    <span className="navbar-toggler-icon"><i class="fa-solid fa-bars" style={{color: "white"}}></i></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav">
+                    <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
                             <a className="nav-link active" href="/home">
                                 Home
@@ -58,7 +66,7 @@ function Navbar() {
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/packages">
-                                Packages 
+                                Packages
                             </a>
                         </li>
                         <li className="nav-item">
@@ -66,16 +74,39 @@ function Navbar() {
                                 Booking
                             </a>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/login">
-                                Login
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/register">
-                                Register
-                            </a>
-                        </li>
+                        {user ? (
+                            <>
+                                <div className="dropdown">
+                                    <button 
+                                        className="btn btn-secondary dropdown-toggle" 
+                                        type="button" 
+                                        id="dropdownMenuButton" 
+                                        data-toggle="dropdown" 
+                                        aria-haspopup="true" 
+                                        aria-expanded="false"
+                                    >
+                                        <i class = 'fa fa-user mr-2' ></i>{user.name}
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a className="dropdown-item" href="#">Bookings</a>
+                                        <a className="dropdown-item" href="#" onClick={logout}>Logout</a>
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/login">
+                                        Login
+                                    </a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/register">
+                                        Register
+                                    </a>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </div>
             </div>
@@ -84,6 +115,7 @@ function Navbar() {
 }
 
 export default Navbar;
+
 
 
 

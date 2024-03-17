@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import About from './screens/About';
 import PackagesScreen from './screens/PackagesScreen';
 import BookingScreen from './screens/BookingScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import LoginScreen from './screens/LoginScreen';
 
 function App() {
   return (
@@ -18,9 +20,11 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/packages" element={<PackagesScreen />} />
           <Route path="/booking/:pkgid" element={<BookingScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
         </Routes>
       </BrowserRouter>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
