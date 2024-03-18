@@ -3,7 +3,7 @@ import './Package.css';
 import { Link } from "react-router-dom";
 import {Modal, Button, Carousel} from 'react-bootstrap';
 
-function Package( {pkg} ) {
+function Package( {pkg , fromdate , todate} ) {
     const [show, setShow] = useState(false);
 
     const handleClose = () => {
@@ -20,14 +20,19 @@ function Package( {pkg} ) {
             <div className='col-md-7'>
                 <h1>{pkg.name}</h1>
                 <b>
-                    <p>Rate : Rs.{pkg.rate}/= per hour</p>
+                    <p>Rate : Rs.{pkg.rate}/= per day</p>
                     <p>{pkg.description}</p>
                     <p>Type : {pkg.type}</p>
                 </b>
                 <div style={{float: 'right'}}>
-                    <Link to={"/booking/"+ pkg._id}>
+
+                    {/* if fromdate and todate values are selected, the book now button will be displayed */}
+                    {(fromdate && todate) && (
+                        <Link to={"/booking/"+ pkg._id + "/" + fromdate + "/" + todate}>
                         <button className='btn btn-primary m-2'>Book Now</button>
                     </Link>
+                    )}
+
                     <button className='btn btn-primary' onClick={handleShow}>View Details</button>
                 </div>
             </div>
@@ -48,7 +53,7 @@ function Package( {pkg} ) {
                     </Carousel>
                     <p><b>{pkg.description}</b></p>
                     <ul>
-                        <li><b>Rate : </b>Rs.{pkg.rate}/= per hour</li>
+                        <li><b>Rate : </b>Rs.{pkg.rate}/= per day</li>
                         <li><b>Includes : </b>{pkg.includes}</li>
                         <li><b>Additional Features : </b>{pkg.features}</li>
                         <li><b>Booking Requirements : </b>{pkg.requirements}</li>

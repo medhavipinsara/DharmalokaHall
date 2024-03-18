@@ -19,7 +19,7 @@ function App() {
           <Route path="/home" element={<HomeScreen />} />
           <Route path="/about" element={<About />} />
           <Route path="/packages" element={<PackagesScreen />} />
-          <Route path="/booking/:pkgid" element={<BookingScreen />} />
+          <Route path="/booking/:pkgid/:fromdate/:todate" element={<BookingScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/login" element={<LoginScreen />} />
         </Routes>
