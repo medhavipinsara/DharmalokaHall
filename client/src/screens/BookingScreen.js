@@ -4,13 +4,22 @@ import { useParams } from 'react-router-dom';
 import '../components/Package.css';
 import Loader from '../components/Loader';
 import Error from '../components/Error';
+import moment from 'moment';
 
 function BookingScreen() {
     const [loading, setloading] = useState(true);
     const [error, seterror] = useState();
     const [pkg, setpkg] = useState();
 
-    const { pkgid } = useParams();
+    const { pkgid , fromdate , todate } = useParams();
+
+    const fromDate = moment(fromdate , 'DD-MM-YYYY');
+    const toDate = moment(todate , 'DD-MM-YYYY');
+    
+    //Calculating the total dates
+    const totaldays = moment.duration(toDate.diff(fromDate)).asDays() + 1;
+    const [totalamount, settotalamount] = useState()
+    
 
     useEffect(() => {
         async function fetchData() {
@@ -22,6 +31,7 @@ function BookingScreen() {
                 });
                 const data = response.data;
                 setpkg(data);
+                settotalamount(data.rate * totaldays);
                 setloading(false);
             } catch (error) {
                 setloading(false);
@@ -30,16 +40,27 @@ function BookingScreen() {
             }
         }
         fetchData();
-    }, [pkgid]);
+    }, [pkgid, totaldays]);
 
-    
+    async function bookPackage(){
+        const bookingDetails = {
+            pkg,
+            userid:JSON.parse(localStorage.getItem('currentUser'))._id,
+            fromdate,
+            todate,
+            totalamount,
+            totaldays
+        }
+
+        try {
+            const result = (await axios.post('/api/bookings/bookpkg', bookingDetails))
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <div className='m-5'>
-
-            {/* <h1>Booking Screen</h1>
-            <h1>Package id = {pkgid}</h1> */}
-
             {loading ? (
                     <Loader />
                 ) : error ? (
@@ -55,28 +76,27 @@ function BookingScreen() {
                                 <h1>Booking Details</h1>
                                 <hr />
                                 <b>
-                                    <p>Name : </p>
-                                    <p>From Date :</p>
-                                    <p>To Date :</p>
+                                    <p>Name : {JSON.parse(localStorage.getItem('currentUser')).name}</p>
+                                    <p>From Date : {fromdate}</p>
+                                    <p>To Date : {todate}</p>
                                 </b>
                             </div>
                             <div style={{textAlign: 'right'}}>
                                 <h1>Amount</h1>
                                 <hr />
                                 <b>
-                                    <p>Total Hours : </p>
-                                    <p>Rent per Hour : Rs.{pkg.rate}/=</p>
-                                    <p>Total Mount :</p>
+                                <p>Total Days : {totaldays}</p>
+                                    <p>Rent per day : Rs.{pkg.rate}/=</p>
+                                    <p>Total Amount : Rs.{totalamount}/=</p>
                                 </b>
                             </div>
                             <div style={{float: 'right'}}>
-                                <button className='btn btn-primary'>Pay Now</button>
+                                <button className='btn btn-primary' onClick={bookPackage}>Pay Now</button>
                             </div>
                         </div> 
                     </div>
                 )
             }
-
         </div>
     );
 }
