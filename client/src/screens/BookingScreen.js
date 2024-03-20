@@ -5,6 +5,8 @@ import '../components/Package.css';
 import Loader from '../components/Loader';
 import Error from '../components/Error';
 import moment from 'moment';
+import StripeCheckout from 'react-stripe-checkout';
+import swal from 'sweetalert2'
 
 function BookingScreen() {
     const [loading, setloading] = useState(true);
@@ -42,10 +44,13 @@ function BookingScreen() {
         fetchData();
     }, [pkgid, totaldays]);
 
-    async function bookPackage(){
+    async function onToken(token) {
+        console.log(token);
+
         const bookingDetails = {
             pkg,
             userid:JSON.parse(localStorage.getItem('currentUser'))._id,
+            token : token,
             fromdate,
             todate,
             totalamount,
@@ -53,8 +58,16 @@ function BookingScreen() {
         }
 
         try {
-            const result = (await axios.post('/api/bookings/bookpkg', bookingDetails))
+            setloading(true)
+            const result = await axios.post('/api/bookings/bookpkg', bookingDetails).data
+            //console.log(result.data);
+            setloading(false)
+            swal.fire('Congratulations!' , 'You have successfully booked the Hall' , 'success').then(result =>{
+                window.location.href = '/bookings';
+            })
         } catch (error) {
+            setloading(false)
+            swal.fire('Oops!', 'Something went wrong', 'error')
             console.log(error);
         }
     }
@@ -91,7 +104,16 @@ function BookingScreen() {
                                 </b>
                             </div>
                             <div style={{float: 'right'}}>
-                                <button className='btn btn-primary' onClick={bookPackage}>Pay Now</button>
+                                <StripeCheckout
+                                    amount={totalamount * 100} 
+                                    token={onToken}
+                                    currency='LKR'
+                                    stripeKey="pk_test_51OpWG8BNj8nIiyC9EOQlap6DiLMplRjUvCrkDFc1eTVBlA7ymdhFAEeQ1aJvwvdYLRpV8bs6nWRngowE2ciUOain00IIbTpGG7"
+                                >
+                                    <button className='btn btn-primary'>Pay Now{" "}</button>
+
+                                </StripeCheckout>
+
                             </div>
                         </div> 
                     </div>

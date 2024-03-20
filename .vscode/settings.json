@@ -16,6 +16,7 @@
         "getpackagebyid",
         "getpkgbyid",
         "hallmodel",
+        "idempotency",
         "imageurls",
         "Kelaniya",
         "newbooking",
@@ -41,6 +42,9 @@
         "settodate",
         "settotalamount",
         "smallimg",
+        "stripekey",
+        "swal",
+        "sweetalert",
         "temppackages",
         "Thera",
         "todate",
@@ -48,6 +52,7 @@
         "totaldays",
         "totalpay",
         "transactionid",
-        "userid"
+        "userid",
+        "uuidv"
     ]
 }
