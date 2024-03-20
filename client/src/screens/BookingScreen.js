@@ -6,7 +6,7 @@ import Loader from '../components/Loader';
 import Error from '../components/Error';
 import moment from 'moment';
 import StripeCheckout from 'react-stripe-checkout';
-
+import swal from 'sweetalert2'
 
 function BookingScreen() {
     const [loading, setloading] = useState(true);
@@ -44,26 +44,32 @@ function BookingScreen() {
         fetchData();
     }, [pkgid, totaldays]);
 
-
     async function onToken(token) {
         console.log(token);
-       
-            const bookingDetails = {
-                pkg,
-                userid:JSON.parse(localStorage.getItem('currentUser'))._id,
-                fromdate,
-                todate,
-                totalamount,
-                totaldays,
-                token
-            }
-    
-            try {
-                const result = (await axios.post('/api/bookings/bookpkg', bookingDetails))
-            } catch (error) {
-                console.log(error);
-            }
-        
+
+        const bookingDetails = {
+            pkg,
+            userid:JSON.parse(localStorage.getItem('currentUser'))._id,
+            token : token,
+            fromdate,
+            todate,
+            totalamount,
+            totaldays
+        }
+
+        try {
+            setloading(true)
+            const result = await axios.post('/api/bookings/bookpkg', bookingDetails).data
+            //console.log(result.data);
+            setloading(false)
+            swal.fire('Congratulations!' , 'You have successfully booked the Hall' , 'success').then(result =>{
+                window.location.href = '/bookings';
+            })
+        } catch (error) {
+            setloading(false)
+            swal.fire('Oops!', 'Something went wrong', 'error')
+            console.log(error);
+        }
     }
 
     return (
@@ -98,13 +104,16 @@ function BookingScreen() {
                                 </b>
                             </div>
                             <div style={{float: 'right'}}>
-                            <StripeCheckout
-                            amount={totalamount * 100}
-                            token={onToken}
-                            currency="LKR "
-                             stripeKey="pk_test_51OwNhBSBSujpPujhzxqY4pLlB70MwVL7fOprgIrgAzQ1cNo9EQPVpcjcheEJ26Hk2QwQDGgp3USlatvTuUtvHcaF00SYLON7qA">
-                                <button className='btn btn-primary'>Pay Now</button>
-                               </StripeCheckout>
+                                <StripeCheckout
+                                    amount={totalamount * 100} 
+                                    token={onToken}
+                                    currency='LKR'
+                                    stripeKey="pk_test_51OpWG8BNj8nIiyC9EOQlap6DiLMplRjUvCrkDFc1eTVBlA7ymdhFAEeQ1aJvwvdYLRpV8bs6nWRngowE2ciUOain00IIbTpGG7"
+                                >
+                                    <button className='btn btn-primary'>Pay Now{" "}</button>
+
+                                </StripeCheckout>
+
                             </div>
                         </div> 
                     </div>
