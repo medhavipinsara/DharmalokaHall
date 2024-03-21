@@ -17,6 +17,9 @@ function PackagesScreen() {
     const [todate, settodate] = useState()
     const [duplicatepackages, setduplicatepackages] = useState([])
 
+    const[searchkey, setsearchkey] = useState("")
+    const [type, settype] = useState('all') //Initially all the packages are shown
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -81,257 +84,151 @@ function PackagesScreen() {
     //     }
     // }
 
-// function filterByDate(dates) {
-//     const startDate = moment(dates[0].$d);
-//     const endDate = moment(dates[1].$d);
 
-//     setfromdate(startDate.format('DD-MM-YYYY'));
-//     settodate(endDate.format('DD-MM-YYYY'));
+    //*************************this is the code that works for single package */
+    // function filterByDate(dates) {
+    //     const startDate = moment(dates[0].$d);
+    //     const endDate = moment(dates[1].$d);
 
-//     var temppackages = [];
-//     var availability = true; // Assuming availability is true until proven otherwise
+    //     setfromdate(startDate.format('DD-MM-YYYY'));
+    //     settodate(endDate.format('DD-MM-YYYY'));
 
-//     for (const pkg of duplicatepackages) {
-//         var hasBookingInRange = false;
+    //     var temppackages = [];
 
-//         if (pkg.currentbookings.length > 0) {
-//             for (const booking of pkg.currentbookings) {
-//                 const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
-//                 const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
+    //     for (const pkg of duplicatepackages) {
+    //         var availability = true; // Assume the package is available initially
 
-//                 if (
-//                     (startDate.isSameOrAfter(bookingFromDate) && startDate.isSameOrBefore(bookingToDate)) ||
-//                     (endDate.isSameOrAfter(bookingFromDate) && endDate.isSameOrBefore(bookingToDate)) ||
-//                     (startDate.isSameOrBefore(bookingFromDate) && endDate.isSameOrAfter(bookingToDate)) ||
-//                     (bookingFromDate.isSameOrBefore(startDate) && bookingToDate.isSameOrAfter(endDate))
-//                 ) {
-//                     // If any booking overlaps with the selected date range, set hasBookingInRange to true
-//                     hasBookingInRange = true;
-//                     break; // Exit the loop as we found a booking in range
-//                 }
-//             }
-//         }
+    //         if (pkg.currentbookings.length > 0) {
+    //             for (const booking of pkg.currentbookings) {
+    //                 const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
+    //                 const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
 
-//         if (hasBookingInRange) {
-//             // If any booking found in range, mark availability as false
-//             availability = false;
-//         }
+    //                 // Check if any part of the selected date range overlaps with the booking date range
+    //                 if (
+    //                     startDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
+    //                     endDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
+    //                     bookingFromDate.isBetween(startDate, endDate, null, '[]') ||
+    //                     bookingToDate.isBetween(startDate, endDate, null, '[]')
+    //                 ) {
+    //                     // If any part of the selected date range overlaps with the booking date range, mark the package as unavailable
+    //                     availability = false;
+    //                     break; // Exit the loop as we found a booking in range
+    //                 }
+    //             }
+    //         }
 
-//         // Add the package to temppackages only if it's available
-//         if (availability) {
-//             temppackages.push(pkg);
-//         }
-//     }
+    //         // Add the package to temppackages only if it's available
+    //         if (availability) {
+    //             temppackages.push(pkg);
+    //         }
+    //     }
 
-//     // Set packages after checking all packages
-//     setpackages(temppackages);
-// }
+    //     // Set packages after checking all packages
+    //     setpackages(temppackages);
+    // }
 
-//*************************this is the code that works for single package */
-// function filterByDate(dates) {
-//     const startDate = moment(dates[0].$d);
-//     const endDate = moment(dates[1].$d);
 
-//     setfromdate(startDate.format('DD-MM-YYYY'));
-//     settodate(endDate.format('DD-MM-YYYY'));
 
-//     var temppackages = [];
 
-//     for (const pkg of duplicatepackages) {
-//         var availability = true; // Assume the package is available initially
+    function filterByDate(dates) {
+        const startDate = moment(dates[0].$d);
+        const endDate = moment(dates[1].$d);
 
-//         if (pkg.currentbookings.length > 0) {
-//             for (const booking of pkg.currentbookings) {
-//                 const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
-//                 const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
+        setfromdate(startDate.format('DD-MM-YYYY'));
+        settodate(endDate.format('DD-MM-YYYY'));
 
-//                 // Check if any part of the selected date range overlaps with the booking date range
-//                 if (
-//                     startDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-//                     endDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-//                     bookingFromDate.isBetween(startDate, endDate, null, '[]') ||
-//                     bookingToDate.isBetween(startDate, endDate, null, '[]')
-//                 ) {
-//                     // If any part of the selected date range overlaps with the booking date range, mark the package as unavailable
-//                     availability = false;
-//                     break; // Exit the loop as we found a booking in range
-//                 }
-//             }
-//         }
+        var temppackages = [];
+        var overallAvailability = true; // Assume all packages are available initially
 
-//         // Add the package to temppackages only if it's available
-//         if (availability) {
-//             temppackages.push(pkg);
-//         }
-//     }
+        for (const pkg of duplicatepackages) {
+            var packageAvailability = true; // Assume the package is available initially
+            if (pkg.currentbookings.length > 0) {
+                for (const booking of pkg.currentbookings) {
+                    const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
+                    const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
 
-//     // Set packages after checking all packages
-//     setpackages(temppackages);
-// }
-
-// function filterByDate(dates) {
-//     const startDate = moment(dates[0].$d);
-//     const endDate = moment(dates[1].$d);
-
-//     setfromdate(startDate.format('DD-MM-YYYY'));
-//     settodate(endDate.format('DD-MM-YYYY'));
-
-//     var temppackages = [];
-
-//     for (const pkg of duplicatepackages) {
-//         var availability = true; // Assume the package is available initially
-
-//         if (pkg.currentbookings.length > 0) {
-//             for (const booking of pkg.currentbookings) {
-//                 const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
-//                 const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
-
-//                 // Check if the selected end date is after the booking's end date
-//                 if (endDate.isAfter(bookingToDate)) {
-//                     // If the selected date range is entirely after the booked dates, mark the package as available
-//                     availability = true;
-//                     break; // Exit the loop as we found that the selected date range is after the booked dates
-//                 } else if (
-//                     startDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-//                     endDate.isBetween(bookingFromDate, bookingToDate, null, '[]')
-//                 ) {
-//                     // If any booking overlaps with the selected date range, mark the package as unavailable
-//                     availability = false;
-//                     break; // Exit the loop as we found a booking in range
-//                 }
-//             }
-//         }
-
-//         // Add the package to temppackages only if it's available
-//         if (availability) {
-//             temppackages.push(pkg);
-//         }
-//     }
-
-//     // Set packages after checking all packages
-//     setpackages(temppackages);
-// }
-
-// function filterByDate(dates) {
-//     const startDate = moment(dates[0].$d);
-//     const endDate = moment(dates[1].$d);
-
-//     setfromdate(startDate.format('DD-MM-YYYY'));
-//     settodate(endDate.format('DD-MM-YYYY'));
-
-//     var temppackages = [];
-//     var overallAvailability = true; // Flag to track overall availability
-
-//     for (const pkg of duplicatepackages) {
-//         var availability = true; // Assume the package is available initially
-
-//         if (pkg.currentbookings.length > 0) {
-//             for (const booking of pkg.currentbookings) {
-//                 const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
-//                 const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
-
-//                 // Check if the selected end date is after the booking's end date
-//                 if (endDate.isAfter(bookingToDate)) {
-//                     // If the selected date range is entirely after the booked dates, mark the package as available
-//                     availability = true;
-//                     break; // Exit the loop as we found that the selected date range is after the booked dates
-//                 } else if (
-//                     startDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-//                     endDate.isBetween(bookingFromDate, bookingToDate, null, '[]')
-//                 ) {
-//                     // If any booking overlaps with the selected date range, mark the package as unavailable
-//                     availability = false;
-//                     overallAvailability = false; // Update the overall availability flag
-//                     break; // Exit the loop as we found a booking in range
-//                 }
-//             }
-//         }
-
-//         // Add the package to temppackages only if it's available
-//         if (availability) {
-//             temppackages.push(pkg);
-//         }
-//     }
-
-//     // Set packages after checking all packages
-//     if (!overallAvailability) {
-//         // If any package is unavailable, set availability of all packages to false
-//         setpackages([]);
-//     } else {
-//         setpackages(temppackages);
-//     }
-// }
-
-function filterByDate(dates) {
-    const startDate = moment(dates[0].$d);
-    const endDate = moment(dates[1].$d);
-
-    setfromdate(startDate.format('DD-MM-YYYY'));
-    settodate(endDate.format('DD-MM-YYYY'));
-
-    var temppackages = [];
-    var overallAvailability = true; // Assume all packages are available initially
-
-    for (const pkg of duplicatepackages) {
-        var packageAvailability = true; // Assume the package is available initially
-        if (pkg.currentbookings.length > 0) {
-            for (const booking of pkg.currentbookings) {
-                const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
-                const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
-
-                // Check if any part of the selected date range overlaps with the booking date range
-                if (
-                    startDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-                    endDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-                    bookingFromDate.isBetween(startDate, endDate, null, '[]') ||
-                    bookingToDate.isBetween(startDate, endDate, null, '[]')
-                ) {
-                    // If any part of the selected date range overlaps with the booking date range, mark the package as unavailable
-                    overallAvailability = false;
-                    packageAvailability = false; // Update the package availability flag
-                    break; // Exit the loop as we found a booking in range
+                    // Check if any part of the selected date range overlaps with the booking date range
+                    if (
+                        startDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
+                        endDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
+                        bookingFromDate.isBetween(startDate, endDate, null, '[]') ||
+                        bookingToDate.isBetween(startDate, endDate, null, '[]')
+                    ) {
+                        // If any part of the selected date range overlaps with the booking date range, mark the package as unavailable
+                        overallAvailability = false;
+                        packageAvailability = false; // Update the package availability flag
+                        break; // Exit the loop as we found a booking in range
+                    }
                 }
+            }
+
+            // If the overall availability is already false, no need to check further packages
+            if (!overallAvailability) {
+                break;
+            }
+
+            // Add the package to temppackages if it's available
+            if (packageAvailability) {
+                temppackages.push(pkg);
             }
         }
 
-        // If the overall availability is already false, no need to check further packages
-        if (!overallAvailability) {
-            break;
-        }
+        // if (overallAvailability) {
+        //         setpackages(packages);
+        // }
+        // else{
+        //     setpackages(temppackages);
+        // }
 
-        // Add the package to temppackages if it's available
-        if (packageAvailability) {
-            temppackages.push(pkg);
-        }       
+        // Set packages after checking all packages
+        setpackages(temppackages);
+
+        // Return the overall availability
+        //return overallAvailability;
     }
 
-    // if (overallAvailability) {
-    //         setpackages(packages);
-    // }
-    // else{
-    //     setpackages(temppackages);
-    // }
-    
-    // Set packages after checking all packages
-    setpackages(temppackages);
+    function filterBySearch() {
+        const temppackages = duplicatepackages.filter(pkg => pkg.name.toLowerCase().includes(searchkey.toLowerCase()));
+        setpackages(temppackages);
+    }
 
-    // Return the overall availability
-    //return overallAvailability;
-}
+    function filterByType(e) {
+        settype(e)
+        if(e !== 'all'){
+            const temppackages = duplicatepackages.filter(pkg => pkg.type.toLowerCase()===e.toLowerCase());
+            setpackages(temppackages);
+        }
+        else{
+            setpackages(duplicatepackages);
+        }
+
+        
+    }
 
     return (
         <div className='container'>
-            <div className="row mt-5">
+            <div className="row mt-5 bs">
                 <div className="col-md-3">
                     <RangePicker format='DD-MM-YYYY' onChange={filterByDate} />
-
+                </div>
+                <div className="col-md-5">
+                    <input type="text" className="form-control" placeholder="search packages"
+                    value={searchkey} onChange={(e) => {setsearchkey(e.target.value)}} onKeyUp={filterBySearch}
+                    />
+                </div>
+                <div className="col-md-3">
+                    <select className="form-control" value={type} onChange={(e) => {filterByType(e.target.value)}}>
+                        <option value="all">All</option>
+                        <option value="student">Student Packages</option>
+                        <option value="external">External Packages</option>
+                    </select>
                 </div>
             </div>
             <div className="row justify-content-center mt-5">
                 {loading ? (
                     <Loader />
-                ) : error ? (
-                    <Error />
+                // ) : error ? (
+                //     <Error />
                 ) : (
                     packages.map((pkg) => {
                         return (

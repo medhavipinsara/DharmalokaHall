@@ -24,6 +24,11 @@ function BookingScreen() {
     
 
     useEffect(() => {
+
+        //If the user has not logged in, the user will be redirected to login page
+        if(!localStorage.getItem('currentUser')){
+            window.location.href='/login'
+        }
         async function fetchData() {
             try {
                 setloading(true);

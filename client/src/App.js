@@ -8,6 +8,7 @@ import PackagesScreen from './screens/PackagesScreen';
 import BookingScreen from './screens/BookingScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/booking/:pkgid/:fromdate/:todate" element={<BookingScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/login" element={<LoginScreen />} />
+          <Route path="/profile" element={<ProfileScreen />} />
         </Routes>
       </BrowserRouter>
       {/* <Footer /> */}
