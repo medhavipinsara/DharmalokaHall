@@ -4,17 +4,37 @@ import axios from 'axios';
 import Loader from '../components/Loader';
 import Error from '../components/Error';
 import swal from 'sweetalert2'
+import ResourceReport from '../components/ResourceReport';
+
 
 const { TabPane } = Tabs;
 
 //Main Admin Screen
 function AdminScreen() {
 
+    const [resources, setResources] = useState([]);
+    const [loadingResources, setLoadingResources] = useState(true);
+
     useEffect(() => {
         if (!JSON.parse(localStorage.getItem('currentUser')).isAdmin) {
             window.location.href = '/home';
         }
     }, [])
+
+    useEffect(() => {
+    async function fetchResources() {
+        try {
+            const res = await axios.get('/api/resources/getallresources');
+            setResources(res.data);
+            setLoadingResources(false);
+        } catch (error) {
+            console.error('Error fetching resources:', error);
+            setLoadingResources(false);
+        }
+    }
+
+    fetchResources();
+}, []);
 
     return (
         <div className='mt-3 ml-3 mr-3 bs'>
@@ -31,6 +51,16 @@ function AdminScreen() {
                 </TabPane>
                 <TabPane tab='Users' key="4">
                     <Users />
+                </TabPane>
+                <TabPane tab='Resource Management' key="5">
+                    <Resources />
+                </TabPane>
+                <TabPane tab='Resource Reports' key="6">
+                    {loadingResources ? (
+                        <Loader /> // Or any loading indicator
+                    ) : (
+                        <ResourceReport resources={resources} />
+                    )}
                 </TabPane>
             </Tabs>
         </div>
@@ -311,4 +341,95 @@ export function Addpkg() {
     )
 }
 
+//Resource Management Component
+export function Resources() {
+
+    const [resources, setResources] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchResources();
+    }, []);
+
+    const fetchResources = async () => {
+        try {
+            const res = await axios.get('/api/resources/getallresources');
+            setResources(res.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching resources:', error);
+            setLoading(false);
+        }
+    };
+
+    const handleQuantityChange = (resourceId, newQuantity) => {
+        setResources(prevResources => {
+            return prevResources.map(resource => {
+                if (resource._id === resourceId) {
+                    return { ...resource, quantity: newQuantity };
+                }
+                return resource;
+            });
+        });
+    };
+
+    const updateQuantity = async (resourceId, newQuantity) => {
+        try {
+            await axios.put('/api/resources/resources/update', {
+                resourceName: resourceId,
+                newQuantity
+            });
+            swal.fire('Success', 'Resource Quantity Updated Successfully', 'success');
+        } catch (error) {
+            console.error('Error Updating Resource Quantity:', error);
+            swal.fire('Error', 'Failed to Update Resource Quantity', 'error');
+        }
+    };
+
+    return (
+        <div>
+            <h2>Resource Management</h2>
+            {loading ? (
+                <Loader />
+            ) : (
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    {resources.map(resource => (
+                        <div
+                            key={resource._id}
+                            className='bs-resources'
+                        >
+                            <p><b>{resource.name}:</b>
+                                <input 
+                                    type="number" 
+                                    value={resource.quantity}
+                                    onChange={e => handleQuantityChange(resource._id, e.target.value)}
+                                    style={{ width: '50px', marginLeft: '10px' }} 
+                                />
+                                <button 
+                                    onClick={() => updateQuantity(resource._id, resource.quantity)}
+                                    style={{ marginLeft: 'auto', 
+                                    display: 'block', 
+                                    marginTop: '10px',
+                                    backgroundColor: 'white',
+                                    color: 'black',
+                                    borderRadius: '5px',
+                                    padding: '5px 10px',
+                                    border: '1px solid black',
+                                    cursor: 'pointer' }} 
+                                >
+                                    <b>Update</b>
+                                </button>
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
+// export function ResourceReport() {
+
+    
+// }
 
