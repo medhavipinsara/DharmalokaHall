@@ -3,6 +3,7 @@ import axios from 'axios';
 import './RegisterLogin.css'
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { Link } from 'react-router-dom';
 
 function LoginScreen() {
 
@@ -46,10 +47,14 @@ function LoginScreen() {
                         <input type='text' className='form-control' placeholder='Email'
                         value={email} onChange={(e) => {setemail(e.target.value)}}/>
 
-                        <input type='text' className='form-control' placeholder='Password'
+                        <input type='password' className='form-control' placeholder='Password'
                         value={password} onChange={(e) => {setpassword(e.target.value)}}/>
 
                         <button className='btn btn-primary mt-3' onClick={login}>Login</button>
+
+                        <p className="mt-3">
+                            Don't have an account? <Link to="/register">Register</Link>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ import './RegisterLogin.css'
 import Loader from "../components/Loader";
 import Error from "../components/Error";
 import Success from '../components/Success';
+import { Link } from 'react-router-dom';
 
 function RegisterScreen() {
     const[name, setname] = useState('');
@@ -69,6 +70,10 @@ function RegisterScreen() {
                         value={cpassword} onChange={(e) => {setcpassword(e.target.value)}}/>
 
                         <button className='btn btn-primary mt-3' onClick={register}>Register</button>
+
+                        <p className="mt-3">
+                            Already have an account? <Link to="/login">Login</Link>
+                        </p>
                     </div>
                 </div>
             </div>
