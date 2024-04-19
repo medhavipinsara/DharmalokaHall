@@ -41,52 +41,47 @@ function PackagesScreen() {
     }, []);
 
     function filterByDate(dates) {
-        const startDate = moment(dates[0].$d);
-        const endDate = moment(dates[1].$d);
+    const startDate = moment(dates[0].$d);
+    const endDate = moment(dates[1].$d);
 
-        setfromdate(startDate.format('DD-MM-YYYY'));
-        settodate(endDate.format('DD-MM-YYYY'));
+    setfromdate(startDate.format('DD-MM-YYYY'));
+    settodate(endDate.format('DD-MM-YYYY'));
 
-        var temppackages = [];
-        var overallAvailability = true; // Assume all packages are available initially
+    let temppackages = []; // Initialize temppackages to null
 
-        for (const pkg of duplicatepackages) {
-            var packageAvailability = true; // Assume the package is available initially
-            if (pkg.currentbookings.length > 0) {
-                for (const booking of pkg.currentbookings) {
-                    const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
-                    const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
+    for (const pkg of duplicatepackages) {
+        let hasOverlap = false; // Flag to track if overlap is found
+        for (const booking of pkg.currentbookings) {
+            const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
+            const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
 
-                    // Check if any part of the selected date range overlaps with the booking date range
-                    if (
-                        startDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-                        endDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-                        bookingFromDate.isBetween(startDate, endDate, null, '[]') ||
-                        bookingToDate.isBetween(startDate, endDate, null, '[]')
-                    ) {
-                        // If any part of the selected date range overlaps with the booking date range, mark the package as unavailable
-                        overallAvailability = false;
-                        packageAvailability = false; // Update the package availability flag
-                        break; // Exit the loop as we found a booking in range
-                    }
-                }
-            }
-
-            // If the overall availability is already false, no need to check further packages
-            if (!overallAvailability) {
-                break;
-            }
-
-            // Add the package to temppackages if it's available
-            if (packageAvailability) {
-                temppackages.push(pkg);
+            // Check for overlap between the selected date range and booking date range
+            if (
+                (startDate.isSameOrAfter(bookingFromDate) && startDate.isSameOrBefore(bookingToDate)) ||
+                (endDate.isSameOrAfter(bookingFromDate) && endDate.isSameOrBefore(bookingToDate)) ||
+                (bookingFromDate.isSameOrAfter(startDate) && bookingFromDate.isSameOrBefore(endDate)) ||
+                (bookingToDate.isSameOrAfter(startDate) && bookingToDate.isSameOrBefore(endDate))
+            ) {
+                hasOverlap = true; // Set overlap flag to true
+                break; // Exit the inner loop if overlap is found
             }
         }
-
-        // Set packages after checking all packages
-        setpackages(temppackages);
-
+        if (hasOverlap) {
+            temppackages = []; // Set temppackages to null if overlap is found
+            break; // Exit the outer loop if overlap is found
+        } else {
+            temppackages = duplicatepackages; // Set temppackages to duplicatepackages if no overlap is found
+        }
     }
+
+    setpackages(temppackages);
+    if (temppackages.length === 0) {
+            seterror(true); // Set error to true if temppackages is empty
+        } else {
+            seterror(false); // Set error to false if temppackages is not empty
+        }
+}
+
 
     function filterBySearch() {
         const temppackages = duplicatepackages.filter(pkg => pkg.name.toLowerCase().includes(searchkey.toLowerCase()));
@@ -102,8 +97,6 @@ function PackagesScreen() {
         else{
             setpackages(duplicatepackages);
         }
-
-        
     }
 
     return (
@@ -128,8 +121,8 @@ function PackagesScreen() {
             <div className="row justify-content-center mt-5">
                 {loading ? (
                     <Loader />
-                // ) : error ? (
-                //     <Error />
+                ) : error ? (
+                <Error message = "Apologies, the selected date range overlaps with an existing booking for the venue. Please choose different dates or contact us for assistance. Thank you for your understanding"/>
                 ) : (
                     packages.map((pkg) => {
                         return (
