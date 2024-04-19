@@ -40,96 +40,6 @@ function PackagesScreen() {
         fetchData();
     }, []);
 
-    // function filterByDate(dates) {
-    //     const startDate = moment(dates[0].$d);
-    //     const endDate = moment(dates[1].$d);
-    //     // console.log(startDate.format('DD-MM-YYYY'));
-    //     // console.log(endDate.format('DD-MM-YYYY'));
-
-    //     setfromdate(startDate.format('DD-MM-YYYY'))
-    //     settodate(endDate.format('DD-MM-YYYY'))
-
-    //     var temppackages = []
-    //     var availability = false
-
-    //     for (const pkg of duplicatepackages) {
-    //         if (pkg.currentbookings.length > 0) {
-    //             for (const booking of pkg.currentbookings) {
-    //                 if (
-    //                     !moment(moment(startDate.format('DD-MM-YYYY'))).isBetween(
-    //                         booking.fromdate, 
-    //                         booking.todate
-    //                     )
-    //                     && !moment(moment(endDate.format('DD-MM-YYYY'))).isBetween(
-    //                         booking.fromdate, 
-    //                         booking.todate
-    //                     )
-    //                 ) {
-    //                     if (
-    //                         moment(startDate.format('DD-MM-YYYY')) !== booking.fromdate &&
-    //                         moment(startDate.format('DD-MM-YYYY')) !== booking.todate &&
-    //                         moment(endDate.format('DD-MM-YYYY')) !== booking.fromdate &&
-    //                         moment(endDate.format('DD-MM-YYYY')) !== booking.todate
-    //                     ) {
-    //                         availability = true;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         if(availability === true || pkg.currentbookings.length === 0) {
-    //             temppackages.push(pkg)
-    //         }
-
-    //         setpackages(temppackages)
-    //     }
-    // }
-
-
-    //*************************this is the code that works for single package */
-    // function filterByDate(dates) {
-    //     const startDate = moment(dates[0].$d);
-    //     const endDate = moment(dates[1].$d);
-
-    //     setfromdate(startDate.format('DD-MM-YYYY'));
-    //     settodate(endDate.format('DD-MM-YYYY'));
-
-    //     var temppackages = [];
-
-    //     for (const pkg of duplicatepackages) {
-    //         var availability = true; // Assume the package is available initially
-
-    //         if (pkg.currentbookings.length > 0) {
-    //             for (const booking of pkg.currentbookings) {
-    //                 const bookingFromDate = moment(booking.fromdate, 'DD-MM-YYYY');
-    //                 const bookingToDate = moment(booking.todate, 'DD-MM-YYYY');
-
-    //                 // Check if any part of the selected date range overlaps with the booking date range
-    //                 if (
-    //                     startDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-    //                     endDate.isBetween(bookingFromDate, bookingToDate, null, '[]') ||
-    //                     bookingFromDate.isBetween(startDate, endDate, null, '[]') ||
-    //                     bookingToDate.isBetween(startDate, endDate, null, '[]')
-    //                 ) {
-    //                     // If any part of the selected date range overlaps with the booking date range, mark the package as unavailable
-    //                     availability = false;
-    //                     break; // Exit the loop as we found a booking in range
-    //                 }
-    //             }
-    //         }
-
-    //         // Add the package to temppackages only if it's available
-    //         if (availability) {
-    //             temppackages.push(pkg);
-    //         }
-    //     }
-
-    //     // Set packages after checking all packages
-    //     setpackages(temppackages);
-    // }
-
-
-
-
     function filterByDate(dates) {
         const startDate = moment(dates[0].$d);
         const endDate = moment(dates[1].$d);
@@ -173,18 +83,9 @@ function PackagesScreen() {
             }
         }
 
-        // if (overallAvailability) {
-        //         setpackages(packages);
-        // }
-        // else{
-        //     setpackages(temppackages);
-        // }
-
         // Set packages after checking all packages
         setpackages(temppackages);
 
-        // Return the overall availability
-        //return overallAvailability;
     }
 
     function filterBySearch() {
