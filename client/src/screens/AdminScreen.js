@@ -428,8 +428,3 @@ export function Resources() {
     );
 }
 
-// export function ResourceReport() {
-
-    
-// }
-

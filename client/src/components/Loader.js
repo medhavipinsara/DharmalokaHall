@@ -4,7 +4,7 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 function Loader() {
     let [loading, setLoading] = useState(true);
     return (
-        <div style={{marginTop:'200px'}}>
+        <div style={{marginTop:'150px'}}>
             <div className="sweet-loading text-center">
                 <PropagateLoader
                     color='#000'

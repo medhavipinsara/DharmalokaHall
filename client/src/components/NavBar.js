@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./NavBar.css";
 import './Footer.css';
 
-
 function Navbar() {
 
     const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -37,8 +36,6 @@ function Navbar() {
             <div className="container-fluid">
                 <div >
                     <h1 style={{ color: 'white' }}> <i className='fab fa-typo3' /> &nbsp;  DHARMALOKA HALL  </h1>
-
-
                 </div>
 
                 <button
@@ -66,16 +63,11 @@ function Navbar() {
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/packages">
-                                Packages
+                                Packages & Booking
                             </a>
                         </li>
                         {user ? (
                             <>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/profile">
-                                        Profile
-                                    </a>
-                                </li>
                                 <div className="dropdown">
                                     <button
                                         className="btn btn-secondary dropdown-toggle"
@@ -88,7 +80,7 @@ function Navbar() {
                                         <i class='fa fa-user mr-2' ></i>{user.name}
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a className="dropdown-item" href="#">Bookings</a>
+                                        <a className="dropdown-item" href="/profile">Profile</a>
                                         <a className="dropdown-item" href="#" onClick={logout}>Logout</a>
                                     </div>
                                 </div>
