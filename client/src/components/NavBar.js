@@ -39,7 +39,7 @@ function Navbar() {
                         alt="Logo"
                         className="logo"
                     />
-                    DHARAMALOKA HALL
+                    DHARMALOKA HALL
                 </a>
                 <button
                     className="navbar-toggler"

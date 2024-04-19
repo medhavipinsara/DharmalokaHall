@@ -8,6 +8,8 @@ import PackagesScreen from './screens/PackagesScreen';
 import BookingScreen from './screens/BookingScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
+import HeroSection from './components/HeroSection'; // Import the HeroSection component
+
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
       <Navbar />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<HeroSection />} /> {/* Add route for HeroSection */}
           <Route path="/" element={<HomeScreen />} />
           <Route path="/home" element={<HomeScreen />} />
           <Route path="/about" element={<About />} />
@@ -23,9 +26,11 @@ function App() {
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/login" element={<LoginScreen />} />
         </Routes>
+        <Footer />
+
       </BrowserRouter>
-      {/* <Footer /> */}
     </div>
+
   );
 }
 
