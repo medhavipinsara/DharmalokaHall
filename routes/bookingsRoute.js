@@ -62,7 +62,7 @@ router.post('/bookpkg', async (req, res) => {
 
             await pkgtemp.save()
 
-            //res.send('Package Booked Successfully')
+            res.send('Package Booked Successfully')
         }
 
         res.send('Payment Successful, the hall is booked')
@@ -70,6 +70,54 @@ router.post('/bookpkg', async (req, res) => {
     } catch (error) {
         return res.status(400).json({ error })
         console.log(error)
+    }
+});
+
+router.post('/getbookingsbyuserid', async (req, res) => {
+
+    const userid = req.body.userid;
+
+    try {
+        const bookings = await Booking.find({userid: userid})
+        res.send( bookings );
+    } catch (error) {
+        return res.status(400).json({ error });
+    }
+});
+
+router.post('/cancelbooking', async (req, res) => {
+    const {bookingid, pkgid}=req.body
+
+    try {
+        const bookingitem = await Booking.findOne({_id: bookingid})
+
+        bookingitem.status = 'cancelled'
+        await bookingitem.save()
+        const pkg = await Package.findOne({_id: pkgid})
+
+        const bookings = pkg.currentbookings
+
+        const temp = bookings.filter(booking => booking.bookingid.toString()!==bookingid)
+        pkg.currentbookings = temp
+
+        await pkg.save()
+
+        res.send('Your booking cancelled successfully')
+    } catch (error) {
+        return res.status(400).json({ error })
+    }
+    
+});
+
+router.get('/getallbookings', async (req, res) => {
+
+    //const userid = req.body.userid;
+
+    try {
+        const bookings = await Booking.find()
+        res.send( bookings );
+    } catch (error) {
+        return res.status(400).json({ error });
     }
 });
 

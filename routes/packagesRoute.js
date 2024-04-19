@@ -25,4 +25,14 @@ router.post('/getpkgbyid', async (req, res) => {
   }
 });
 
+router.post('/addpkg', async (req, res) => {
+  try {
+      const newpkg = new Package(req.body)
+      await newpkg.save()
+      res.send('New Package Added Successfully')
+  } catch (error) {
+      return res.status(400).json({ error })
+  }
+})
+
 module.exports = router;

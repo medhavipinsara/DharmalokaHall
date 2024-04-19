@@ -33,7 +33,7 @@ function Navbar() {
             className={`navbar navbar-expand-lg ${isScrolled ? "scrolled" : ""}`}
         >
             <div className="container-fluid">
-                <a className="navbar-brand" href="/">
+                <a className="navbar-brand" href="/home">
                     <img
                         src={require("./Kelaniya.png")}
                         alt="Logo"
@@ -70,8 +70,8 @@ function Navbar() {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/booking">
-                                Booking
+                            <a className="nav-link" href="/profile">
+                                Profile
                             </a>
                         </li>
                         {user ? (
