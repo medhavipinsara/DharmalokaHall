@@ -10,8 +10,8 @@ function HeroSection() {
 
   return (
     <div className='hero-container'>
-      <h1>ADVENTURE AWAITS</h1>
-      <p>What are you waiting for?</p>
+      <h1>DISCOVER DHARMALOKA HALL</h1>
+      <p> Your event starts here!</p>
       <div className='hero-btns'>
         <Button
           buttonStyle='btn--outline'

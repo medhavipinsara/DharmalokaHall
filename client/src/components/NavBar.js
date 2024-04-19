@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./NavBar.css";
+import './Footer.css';
+
 
 function Navbar() {
 
     const user = JSON.parse(localStorage.getItem('currentUser'));
-    
-    function logout(){
+
+    function logout() {
         localStorage.removeItem('currentUser');
-        window.location.href='/login'
+        window.location.href = '/login'
     }
 
     const [isScrolled, setIsScrolled] = useState(false);
@@ -33,14 +35,19 @@ function Navbar() {
             className={`navbar navbar-expand-lg ${isScrolled ? "scrolled" : ""}`}
         >
             <div className="container-fluid">
-                <a className="navbar-brand" href="/home">
+                <div >
+                    <h1 style={{ color: 'white' }}> <i className='fab fa-typo3' /> &nbsp;  DHARMALOKA HALL  </h1>
+
+
+                </div>
+                {/*<a className="navbar-brand" href="/home">
                     <img
                         src={require("./Kelaniya.png")}
                         alt="Logo"
                         className="logo"
                     />
                     DHARMALOKA HALL
-                </a>
+                </a>*/}
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -50,7 +57,7 @@ function Navbar() {
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                 >
-                    <span className="navbar-toggler-icon"><i class="fa-solid fa-bars" style={{color: "white"}}></i></span>
+                    <span className="navbar-toggler-icon"><i class="fa-solid fa-bars" style={{ color: "white" }}></i></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ml-auto">
@@ -77,15 +84,15 @@ function Navbar() {
                         {user ? (
                             <>
                                 <div className="dropdown">
-                                    <button 
-                                        className="btn btn-secondary dropdown-toggle" 
-                                        type="button" 
-                                        id="dropdownMenuButton" 
-                                        data-toggle="dropdown" 
-                                        aria-haspopup="true" 
+                                    <button
+                                        className="btn btn-secondary dropdown-toggle"
+                                        type="button"
+                                        id="dropdownMenuButton"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
                                         aria-expanded="false"
                                     >
-                                        <i class = 'fa fa-user mr-2' ></i>{user.name}
+                                        <i class='fa fa-user mr-2' ></i>{user.name}
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a className="dropdown-item" href="#">Bookings</a>
