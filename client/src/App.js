@@ -8,6 +8,7 @@ import PackagesScreen from './screens/PackagesScreen';
 import BookingScreen from './screens/BookingScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
+import HeroSection from './components/HeroSection'; // Import the HeroSection component
 import ProfileScreen from './screens/ProfileScreen';
 import AdminScreen from './screens/AdminScreen';	
 
@@ -17,6 +18,7 @@ function App() {
       <Navbar />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<HeroSection />} /> {/* Add route for HeroSection */}
           <Route path="/" element={<HomeScreen />} />
           <Route path="/home" element={<HomeScreen />} />
           <Route path="/about" element={<About />} />
@@ -27,9 +29,11 @@ function App() {
           <Route path="/profile" element={<ProfileScreen />} />
           <Route path="/admin" element={<AdminScreen />} />
         </Routes>
+        <Footer />
+
       </BrowserRouter>
-      {/* <Footer /> */}
     </div>
+
   );
 }
 

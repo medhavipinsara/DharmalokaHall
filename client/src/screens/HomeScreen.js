@@ -1,11 +1,14 @@
 import React from "react";
+import Cards from '../components/Cards';
+import HeroSection from '../components/HeroSection';
 
 function HomeScreen() {
-    return (
-        <div>
-            <h1>Home Screen</h1>
-        </div>
-    );
+  return (
+    <>
+      <HeroSection />
+      <Cards />
+    </>
+  );
 }
 
 export default HomeScreen;
