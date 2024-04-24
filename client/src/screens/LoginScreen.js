@@ -18,6 +18,7 @@ function LoginScreen() {
             email,
             password
         }
+        
         try {
             setloading(true);
             const response = await axios.post('api/users/login', user);
