@@ -68,7 +68,7 @@ function BookingScreen() {
             //console.log(result.data);
             setloading(false)
             swal.fire('Congratulations!' , 'You have successfully booked the Hall' , 'success').then(result =>{
-                window.location.href = '/bookings';
+                window.location.href = '/profile';
             })
         } catch (error) {
             setloading(false)

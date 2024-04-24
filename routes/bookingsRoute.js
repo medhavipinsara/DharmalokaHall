@@ -65,8 +65,6 @@ router.post('/bookpkg', async (req, res) => {
             res.send('Package Booked Successfully')
         }
 
-        res.send('Payment Successful, the hall is booked')
-
     } catch (error) {
         return res.status(400).json({ error })
         console.log(error)

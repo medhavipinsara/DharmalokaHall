@@ -47,7 +47,7 @@ function Navbar() {
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                 >
-                    <span className="navbar-toggler-icon"><i class="fa-solid fa-bars" style={{ color: "white" }}></i></span>
+                    <span className="navbar-toggler-icon"><i className="fa-solid fa-bars" style={{ color: "white" }}></i></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ml-auto">
@@ -77,9 +77,9 @@ function Navbar() {
                                         aria-haspopup="true"
                                         aria-expanded="false"
                                     >
-                                        <i class='fa fa-user mr-2' ></i>{user.name}
+                                        <i className='fa fa-user mr-2' ></i>{user.name}
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a className="dropdown-item" href="/profile">Profile</a>
                                         <a className="dropdown-item" href="#" onClick={logout}>Logout</a>
                                     </div>

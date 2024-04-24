@@ -68,20 +68,31 @@ export function MyBookings() {
     }, [user._id]);
 
     async function cancelBooking(bookingid, pkgid) {
+    const confirmCancel = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'Once canceled, you will not be able to recover this booking!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, cancel it!',
+        cancelButtonText: 'No, keep it'
+    });
+
+    if (confirmCancel.isConfirmed) {
         try {
             setloading(true);
-            const result = await (await axios.post("/api/bookings/cancelbooking", { bookingid, pkgid })).data;
-            console.log(result)
-            setloading(false)
-            Swal.fire('Congrats', 'Your booking cancelled successfully', 'success').then(result => (
-                window.location.reload()
-            ))
+            const result = await axios.post("/api/bookings/cancelbooking", { bookingid, pkgid });
+            console.log(result.data);
+            setloading(false);
+            Swal.fire('Canceled!', 'Your booking has been canceled.', 'success').then(result => {
+                window.location.reload();
+            });
         } catch (error) {
-            console.log(error)
-            setloading(false)
-            Swal.fire('Oops!', 'Something went wrong', 'error')
+            console.log(error);
+            setloading(false);
+            Swal.fire('Oops!', 'Something went wrong.', 'error');
         }
     }
+}
 
     return (
         <div>
@@ -103,8 +114,6 @@ export function MyBookings() {
                                 {booking.status !== 'cancelled' && (<div className='text-right'>
                                     <button className='btn btn-primary' onClick={() => { cancelBooking(booking._id, booking.pkgid) }}>Cancel Booking</button>
                                 </div>)}
-
-
                             </div>
                         )
                     }))}
